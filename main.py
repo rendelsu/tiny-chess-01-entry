@@ -158,4 +158,4 @@ def main():
    F(g['fen'])
    m=d()
    g=p('/move',{'game':g['game'],'move':y(m)if m else min(g['legal_moves'])})
-__name__[1]=='m'and main()
+if __name__[2]=='m':main()
