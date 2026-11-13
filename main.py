@@ -6,7 +6,7 @@ V=0,100,320,330,500,900,0
 P=[ord(c)*5-375 for c in'KKKKUUUUMMOQLLMPKKKOLJIKLMMGKKKKACEECGKKEKMNELNOEKNOELMNCGKLACEEGIIIIKKKIKLMILLMIKMMIMMMILKKGIII'+'KKKKLMMM'+'JKKK'*5+'KKKL'+'GIIJIKKKIKLLJKLLKKLLILLLIKLKGIIJ'+'ECCA'*4+'GEECIGGGOOKKOQMK']
 A=(-33,-31,-18,-14,14,18,31,33);D=(-17,-15,15,17);O=(-16,-1,1,16);G=D+O
 Y={4:3,116:12,0:2,7:1,112:8,119:4}
-B=[0]*128;T=1;C=0;W=4;X=116;S=[];H={};RP=set();n=0;I=10**5
+B=[0]*128;T=1;C=0;W=4;X=116;S=[];H={};n=0;I=10**5
 class AB(Exception):pass
 def q(s):return chr(97+s%8)+str(s//16+1)
 def y(m):return q(m[0])+q(m[1])+('','x','n','b','r','q')[m[2]]
@@ -19,10 +19,13 @@ def F(f):
   elif'/'<ch<':':s+=int(ch)
   else:B[s]=' PNBRQK'.index(ch.upper())*((ch<'a')*2-1);s+=1
  T=1-2*(w[1]=='b')
- C=sum((c in w[2])<<i for i,c in enumerate('KQkq'))
+ C=sum(1<<'KQkq'.index(c)for c in w[2]if c in'KQkq')
  W=B.index(6);X=B.index(-6)
 def z(s,by):
- for O_,pc in(((-15*by,-17*by),1),(A,2),(G,6)):
+ for d in(-15*by,-17*by):
+  t=s+d
+  if not t&0x88 and B[t]==by:return 1
+ for O_,pc in((A,2),(G,6)):
   for d in O_:
    t=s+d
    if not t&0x88 and B[t]==by*pc:return 1
@@ -117,7 +120,6 @@ def f(d,a,b,ply,r):
    if s>a:a=s
   return a
  k=(tuple(B),T,C)
- if k in RP:return min(ev(),0)
  bm=(h:=H.get(k))and h[3]
  if h and h[0]>=d and(h[2]<=a if h[1]==1 else h[2]>=b if h[1]==2 else 1):return h[2]
  ms=L(g(0))
@@ -129,14 +131,14 @@ def f(d,a,b,ply,r):
   if s>best:best=s;bbm=m
   if s>a:a=s
   if a>=b:break
- H[k]=(d,(best>=b)*2+(best<=ao),best,bbm)
+ H[k]=(d,(best>=b)*2+1-(best>ao),best,bbm)
  return best
 def d():
  global n
  n=0
  H.clear()
  ms=L(g(0))
- if not ms:return
+ if not ms:return None
  best=ms[0]
  try:
   for i in range(1,64):
@@ -153,7 +155,7 @@ def main():
   g=p('/game',{})
   if g['status'][0]=='d':break
   while g['status'][0]=='y':
-   F(g['fen']);RP.add((tuple(B),T,C))
+   F(g['fen'])
    m=d()
    g=p('/move',{'game':g['game'],'move':y(m)if m else min(g['legal_moves'])})
 if __name__[2]=='m':main()
