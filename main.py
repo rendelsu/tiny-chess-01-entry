@@ -117,7 +117,7 @@ def f(d,a,b,ply,r):
    if s>a:a=s
   return a
  k=(tuple(B),T,C)
- if k in RP:return 0
+ if k in RP:return min(ev(),0)
  bm=(h:=H.get(k))and h[3]
  if h and h[0]>=d and(h[2]<=a if h[1]==1 else h[2]>=b if h[1]==2 else 1):return h[2]
  ms=L(g(0))
