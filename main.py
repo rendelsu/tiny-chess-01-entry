@@ -19,7 +19,7 @@ def F(f):
   elif'/'<ch<':':s+=int(ch)
   else:B[s]=' PNBRQK'.index(ch.upper())*((ch<'a')*2-1);s+=1
  T=1-2*(w[1]=='b')
- C=sum(1<<'KQkq'.index(c)for c in w[2]if c in'KQkq')
+ C=sum((c in w[2])<<i for i,c in enumerate('KQkq'))
  W=B.index(6);X=B.index(-6)
 def z(s,by):
  for O_,pc in(((-15*by,-17*by),1),(A,2),(G,6)):
@@ -129,17 +129,18 @@ def f(d,a,b,ply,r):
   if s>best:best=s;bbm=m
   if s>a:a=s
   if a>=b:break
- H[k]=(d,(best>=b)*2+1-(best>ao),best,bbm)
+ H[k]=(d,(best>=b)*2+(best<=ao),best,bbm)
  return best
 def d():
  global n
  n=0
  H.clear()
  ms=L(g(0))
- if not ms:return None
+ if not ms:return
  best=ms[0]
  try:
   for i in range(1,64):
+   ms.sort(key=best.__ne__)
    a=-I*10;cb=best
    for m in ms:
     M(m);s=-f(i-1,-I*10,-a,1,0);u()
